@@ -1,0 +1,169 @@
+{
+  "model_stats": {
+    "total_parameters": 131508032,
+    "trainable_parameters": 131508032,
+    "wave_parameters": 16384,
+    "wave_param_percentage": 0.012458554622732093,
+    "total_parameters_millions": 131.508032,
+    "parameter_memory_gb_fp32": 0.526032128,
+    "parameter_memory_gb_fp16": 0.263016064,
+    "architecture": {
+      "embed_dim": 768,
+      "num_layers": 8,
+      "num_heads": 4,
+      "seq_len": 256,
+      "vocab_size": 50257,
+      "num_masks": 16,
+      "num_waves_per_mask": 8,
+      "topk_masks": 8,
+      "content_mix": 0.15
+    },
+    "training_step": 11500,
+    "best_validation_loss": 2.8622459888458254
+  },
+  "benchmark": {
+    "batch_inference_ms": 817.6541001565056,
+    "batch_inference_std_ms": 23.04761905615211,
+    "throughput_tokens_per_sec": 10018.906525916014,
+    "throughput_million_tokens_per_sec": 0.010018906525916015,
+    "generation_tokens_per_sec": 10.370640916414665,
+    "generation_latency_ms_per_token": 96.42605583008844,
+    "batch_size": 32,
+    "sequence_length": 256,
+    "device": "mps"
+  },
+  "perplexity_c4": {
+    "dataset": "c4",
+    "num_samples": 200,
+    "num_batches": 6,
+    "total_tokens": 49152,
+    "average_loss": 5.698433001836141,
+    "perplexity": 298.3994430388698,
+    "bits_per_byte": 8.22110103258701
+  },
+  "perplexity_ultrachat": {
+    "dataset": "ultrachat",
+    "num_samples": 200,
+    "num_batches": 6,
+    "total_tokens": 49152,
+    "average_loss": 3.04078475634257,
+    "perplexity": 20.921655196167467,
+    "bits_per_byte": 4.386925088386181
+  },
+  "generation_samples": [
+    {
+      "prompt": "The future of artificial intelligence is",
+      "generated": " undoubtedly a game-changer for healthcare professionals, and they have been known to offer several benefits for many individuals. \n\nFirstly, technology has the potential to revolutionize the healthcare industry by providing unprecedented tools and knowledge that could be used in the medical field. For example, doctors can help improve patient outcomes by allowing healthcare providers to provide personalized care while also improving healthcare delivery. \n\nMedical technology can enable healthcare providers to track their health records, track medical records, monitor patient data, and access patient information. This technology can allow patients to tailor their interventions to their health insurance plans and make informed decisions on how to diagnose and treat diseases. \n\nAnother example is wearable devices such as voice recognition, patient information, physical imagery, or",
+      "full_text": "The future of artificial intelligence is undoubtedly a game-changer for healthcare professionals, and they have been known to offer several benefits for many individuals. \n\nFirstly, technology has the potential to revolutionize the healthcare industry by providing unprecedented tools and knowledge that could be used in the medical field. For example, doctors can help improve patient outcomes by allowing healthcare providers to provide personalized care while also improving healthcare delivery. \n\nMedical technology can enable healthcare providers to track their health records, track medical records, monitor patient data, and access patient information. This technology can allow patients to tailor their interventions to their health insurance plans and make informed decisions on how to diagnose and treat diseases. \n\nAnother example is wearable devices such as voice recognition, patient information, physical imagery, or",
+      "length": 150
+    },
+    {
+      "prompt": "In recent studies, scientists discovered",
+      "generated": " that social media usage can play a role in driving decision-making, attention span, and engagement. The study found that individuals who spent more than 60 years of social media use had lower levels of creativity, motivation, and self-esteem, leading to better decision-making, increased productivity, and overall well-being.\n\nIn terms of scientific evidence, the study found that researchers found that they could significantly reduce their impact on various aspects of their lives and make them more accessible to everyone involved. This study found that individuals who did not have a higher chance of working from home or work in one team were more likely to spend more time with their colleagues compared to others.\n\nThe study also found that individuals who worked with the same department had",
+      "full_text": "In recent studies, scientists discovered that social media usage can play a role in driving decision-making, attention span, and engagement. The study found that individuals who spent more than 60 years of social media use had lower levels of creativity, motivation, and self-esteem, leading to better decision-making, increased productivity, and overall well-being.\n\nIn terms of scientific evidence, the study found that researchers found that they could significantly reduce their impact on various aspects of their lives and make them more accessible to everyone involved. This study found that individuals who did not have a higher chance of working from home or work in one team were more likely to spend more time with their colleagues compared to others.\n\nThe study also found that individuals who worked with the same department had",
+      "length": 150
+    },
+    {
+      "prompt": "The most important aspect of machine learning",
+      "generated": " is the ability to recognize and nurture information as it can be accessed from a variety of sources. It is an important tool for machine learning, data analytics, and machine learning. Additionally, machine learning has been used in machine learning techniques such as machine learning, machine learning, and machine learning to analyze vast amounts of data. Machine learning models have evolved different ways of performing machine learning, such as machine learning algorithms, machine learning, machine learning, and machine learning.\n\nSensory machine learning is becoming increasingly popular in the market due to its high standard of machine learning models. As machine learning algorithms become more efficient, with advanced accuracy, speed, and accuracy, that are likely to provide better recommendations for future optimization.\n\nThere are several challenges",
+      "full_text": "The most important aspect of machine learning is the ability to recognize and nurture information as it can be accessed from a variety of sources. It is an important tool for machine learning, data analytics, and machine learning. Additionally, machine learning has been used in machine learning techniques such as machine learning, machine learning, and machine learning to analyze vast amounts of data. Machine learning models have evolved different ways of performing machine learning, such as machine learning algorithms, machine learning, machine learning, and machine learning.\n\nSensory machine learning is becoming increasingly popular in the market due to its high standard of machine learning models. As machine learning algorithms become more efficient, with advanced accuracy, speed, and accuracy, that are likely to provide better recommendations for future optimization.\n\nThere are several challenges",
+      "length": 150
+    },
+    {
+      "prompt": "Climate change poses significant challenges because",
+      "generated": " it is, too. What is the first step towards finding a suitable balance between economic development and social justice?\n\nSeveral factors can contribute to this role in achieving a cohesive balance between political and social mobility. For instance, one approach is that it requires time for more resources to navigate and maintain a balance between social justice and government policies. A crisis management plan might include investigating potential risks or risks associated with this decision.\n\nA possible solution could be to implement additional measures to reduce risk of bullying and ensure that policy changes are made. By developing strategies that target the right balance of protection, we can create a more inclusive and safer work environment that fosters more meaningful change among individuals who do not commit to change.\n\nIn conclusion, addressing",
+      "full_text": "Climate change poses significant challenges because it is, too. What is the first step towards finding a suitable balance between economic development and social justice?\n\nSeveral factors can contribute to this role in achieving a cohesive balance between political and social mobility. For instance, one approach is that it requires time for more resources to navigate and maintain a balance between social justice and government policies. A crisis management plan might include investigating potential risks or risks associated with this decision.\n\nA possible solution could be to implement additional measures to reduce risk of bullying and ensure that policy changes are made. By developing strategies that target the right balance of protection, we can create a more inclusive and safer work environment that fosters more meaningful change among individuals who do not commit to change.\n\nIn conclusion, addressing",
+      "length": 150
+    },
+    {
+      "prompt": "The human brain works by",
+      "generated": " creating positive affirmations in the brain, while engaging in activities that encourage self-reflection and self-care. Mindfulness exercises like yoga, breathing, meditation, or yoga are great tools for improving mental health.\n\nAromatherapy is a powerful tool for promoting relaxation and reducing stress levels. It is a natural way to reduce stress, promote relaxation, and reduce anxiety and promote relaxation. In terms of relaxation techniques, it\u2019s great for reducing stress levels and boosting feelings of well-being.\n\nHere's how it works:\n\n1. Start by writing down three things you're grateful for each day. 2. Write down your thoughts and feelings without judgment. 3. Pay attention to their surroundings and your environment,",
+      "full_text": "The human brain works by creating positive affirmations in the brain, while engaging in activities that encourage self-reflection and self-care. Mindfulness exercises like yoga, breathing, meditation, or yoga are great tools for improving mental health.\n\nAromatherapy is a powerful tool for promoting relaxation and reducing stress levels. It is a natural way to reduce stress, promote relaxation, and reduce anxiety and promote relaxation. In terms of relaxation techniques, it\u2019s great for reducing stress levels and boosting feelings of well-being.\n\nHere's how it works:\n\n1. Start by writing down three things you're grateful for each day. 2. Write down your thoughts and feelings without judgment. 3. Pay attention to their surroundings and your environment,",
+      "length": 150
+    }
+  ],
+  "wave_analysis": {
+    "per_layer": [
+      {
+        "layer": 0,
+        "freq_mean": -0.002468210645020008,
+        "freq_std": 1.524364709854126,
+        "amp_mean": 0.5673179626464844,
+        "amp_std": 0.15733973681926727,
+        "phase_mean": -0.009745784103870392,
+        "phase_std": 3.2730467319488525
+      },
+      {
+        "layer": 1,
+        "freq_mean": 0.008372127078473568,
+        "freq_std": 1.5181007385253906,
+        "amp_mean": 0.5846415162086487,
+        "amp_std": 0.2221633642911911,
+        "phase_mean": -0.07084731757640839,
+        "phase_std": 3.0904793739318848
+      },
+      {
+        "layer": 2,
+        "freq_mean": -0.03176385164260864,
+        "freq_std": 1.4972546100616455,
+        "amp_mean": 0.6161260604858398,
+        "amp_std": 0.2726444602012634,
+        "phase_mean": -0.04140383005142212,
+        "phase_std": 3.039252519607544
+      },
+      {
+        "layer": 3,
+        "freq_mean": -0.07274606823921204,
+        "freq_std": 1.4708850383758545,
+        "amp_mean": 0.5794162750244141,
+        "amp_std": 0.18750683963298798,
+        "phase_mean": 0.10006183385848999,
+        "phase_std": 3.1214969158172607
+      },
+      {
+        "layer": 4,
+        "freq_mean": -0.03121243230998516,
+        "freq_std": 1.4941667318344116,
+        "amp_mean": 0.5829589366912842,
+        "amp_std": 0.20584510266780853,
+        "phase_mean": -0.06677676737308502,
+        "phase_std": 3.061610698699951
+      },
+      {
+        "layer": 5,
+        "freq_mean": 0.0864882841706276,
+        "freq_std": 1.524571418762207,
+        "amp_mean": 0.584933340549469,
+        "amp_std": 0.1911979764699936,
+        "phase_mean": -0.012281965464353561,
+        "phase_std": 3.3763980865478516
+      },
+      {
+        "layer": 6,
+        "freq_mean": 0.03019033558666706,
+        "freq_std": 1.472364068031311,
+        "amp_mean": 0.5378594398498535,
+        "amp_std": 0.09478089958429337,
+        "phase_mean": -0.2936131954193115,
+        "phase_std": 3.1382172107696533
+      },
+      {
+        "layer": 7,
+        "freq_mean": 0.05569479614496231,
+        "freq_std": 1.5152431726455688,
+        "amp_mean": 0.5381227731704712,
+        "amp_std": 0.12546825408935547,
+        "phase_mean": 0.07130983471870422,
+        "phase_std": 3.1119065284729004
+      }
+    ],
+    "global": {
+      "freq_mean": 0.005319370422512293,
+      "freq_std": 1.5023919343948364,
+      "amp_mean": 0.5739220380783081,
+      "amp_std": 0.19089452922344208,
+      "phase_mean": -0.04041214659810066,
+      "phase_std": 3.1526637077331543
+    }
+  }
+}

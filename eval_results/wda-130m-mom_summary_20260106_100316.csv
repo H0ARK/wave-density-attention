@@ -1,0 +1,12 @@
+Metric,Value
+Total Parameters (M),131.51
+Wave Parameters (%),0.01
+Memory FP32 (GB),0.526
+Throughput (tokens/sec),10019
+Generation (tokens/sec),10.4
+Latency (ms/token),96.4
+Perplexity (C4),298.40
+Loss (C4),5.6984
+Bits per Byte (C4),8.2211
+Perplexity (UltraChat),20.92
+Loss (UltraChat),3.0408

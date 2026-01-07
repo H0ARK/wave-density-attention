@@ -1,0 +1,57 @@
+# --- Private / local-only ---
+/private/
+
+# --- Model checkpoints / weights ---
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+
+# --- Datasets / corpora (keep out of git) ---
+*.gz
+*.zip
+*.tar
+*.tar.gz
+*.jsonl
+*.zst
+
+# Common local dataset filenames in this project
+c4*.json*
+c4*.txt
+enwik8*
+wikitext*
+
+# --- Caches / outputs ---
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# LaTeX build artifacts
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.log
+paper/*.out
+paper/*.pdf
+paper/*.synctex.gz
+
+# HuggingFace / datasets caches (if you ever enable them)
+.hf_cache/
+.cache/
+
+# Training / run logs
+logs/
+wandb/
+
+# --- Environments ---
+.venv/
+venv/
+.env
+.env.*
+
+# --- Editor / OS ---
+.DS_Store
+.vscode/
