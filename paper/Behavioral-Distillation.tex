@@ -1,3 +1,22 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Behavioral Distillation: Internalizing Global Structure through Interaction Consistency}
+\author{Conrad Kramer}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Behavioral distillation focuses on transferring the interactive dynamics of a teacher model to a student, rather than just final output probabilities. Here we analyze the stability and autonomy of models trained via Wave-Density Attention (WDA) during and after teacher detachment.
+
 \subsection{Quantitative Detachment Analysis}
 
 Figure~\ref{fig:detachment} presents a quantitative analysis of detachment dynamics. The plot shows student cross-entropy loss versus training steps, highlighting distinct phases where the teacher is active (guidance on) and inactive (guidance off). During the teacher-on phase, behavioral loss decreases steadily, aligning the student to the teacher's attention patterns. Upon detachment, the teacher is removed, yet the student maintains and further improves cross-entropy performance independently, demonstrating successful internalization of behavioral intelligence.
@@ -18,6 +37,8 @@ Notably, the post-detachment curve was still trending downward at the final chec
 Behavioral distillation can fail under certain conditions. Insufficient bandwidth in behavioral signals may prevent the student from capturing critical interaction dynamics. Premature detachment before behavioral alignment stabilizes often leads to collapse or degraded performance. Additionally, architectural inductive biases incompatible with the teacher's dynamics can hinder effective transfer, necessitating careful design and tuning.
 
 We also observe practical failure modes: (i) learning-rate plateaus where low LR stabilizes but fails to escape flat regions, requiring brief high-LR ``bursts'' to break through; (ii) limited data variety, which can stall CE even under teacher-free training; and (iii) prompt-format mismatch in instruction tuning (e.g., training on ``User: ... Assistant: ...'' while prompting without the assistant cue), which yields on-topic but misaligned completions.
+
+\end{document}
 
 \section{Limitations}
 Our current experiments focus on small- to mid-scale models and a single attention replacement. Kernel choice (triangle vs. sine waves), mask/wave capacity, and gate temperature materially affect both speed and stability, and may require additional fine-tuning when changed. Due to single-GPU constraints, sequence lengths were capped (typically 1024--2048 tokens) and batch sizes kept small (1--4), introducing noisier gradients and slower convergence. Training was also halted before full convergence in the teacher-free phase; the observed continued CE improvement suggests that longer runs, larger batches, and extended contexts would likely yield further gains. Scaling behavior, downstream task performance, and formal guarantees remain open questions.
