@@ -35,7 +35,6 @@ paper/*.fdb_latexmk
 paper/*.fls
 paper/*.log
 paper/*.out
-paper/*.pdf
 paper/*.synctex.gz
 
 # HuggingFace / datasets caches (if you ever enable them)
