@@ -1,29 +1,15 @@
-\documentclass[11pt]{article}
-
-\usepackage[margin=1in]{geometry}
-\usepackage{microtype}
-\usepackage{amsmath,amssymb}
-\usepackage{booktabs}
-\usepackage{graphicx}
-\usepackage{hyperref}
-
-\title{Behavioral Distillation: Internalizing Global Structure through Interaction Consistency}
-\author{Conrad Kramer}
-\date{}
-
-\begin{document}
-\maketitle
-
-\section{Introduction}
-Behavioral distillation focuses on transferring the interactive dynamics of a teacher model to a student, rather than just final output probabilities. Here we analyze the stability and autonomy of models trained via Wave-Density Attention (WDA) during and after teacher detachment.
-
 \subsection{Quantitative Detachment Analysis}
 
 Figure~\ref{fig:detachment} presents a quantitative analysis of detachment dynamics. The plot shows student cross-entropy loss versus training steps, highlighting distinct phases where the teacher is active (guidance on) and inactive (guidance off). During the teacher-on phase, behavioral loss decreases steadily, aligning the student to the teacher's attention patterns. Upon detachment, the teacher is removed, yet the student maintains and further improves cross-entropy performance independently, demonstrating successful internalization of behavioral intelligence.
 
 In a representative SmolLM-135M run, the teacher-free student (WDA-only, $\alpha=1$, teacher taken to zero) improves its evaluation CE over time despite the teacher being absent. Using the same evaluation script and data mix, student CE decreases from $\approx 5.93$ (PPL $\approx 376$) at an earlier checkpoint to $\approx 4.48$ (PPL $\approx 88$) and later to $\approx 3.24$ (PPL $\approx 25.5$). A teacher-only baseline on the same evaluation reports CE $\approx 2.42$ (PPL $\approx 11.3$). These results show continued post-detachment improvement rather than collapse.
 
-Notably, the post-detachment curve was still trending downward at the final checkpoint; training was halted due to hardware and time constraints (single RTX~3090, weeks-long run), not because of convergence. The sustained decline suggests additional gains were likely with more compute, reinforcing that the detached student was still actively refining behavior rather than stabilizing early.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\linewidth]{detachment_plot.pdf}
+\caption{Cross-entropy loss over training steps with teacher guidance phases indicated. The teacher is active during the initial phase (left) and removed during the detachment phase (right). Student performance continues to improve post-detachment, evidencing autonomous learning.}
+\label{fig:detachment}
+\end{figure}
 
 \section{Failure Modes}
 
@@ -32,7 +18,7 @@ Behavioral distillation can fail under certain conditions. Insufficient bandwidt
 We also observe practical failure modes: (i) learning-rate plateaus where low LR stabilizes but fails to escape flat regions, requiring brief high-LR ``bursts'' to break through; (ii) limited data variety, which can stall CE even under teacher-free training; and (iii) prompt-format mismatch in instruction tuning (e.g., training on ``User: ... Assistant: ...'' while prompting without the assistant cue), which yields on-topic but misaligned completions.
 
 \section{Limitations}
-Our current experiments focus on small- to mid-scale models and a single attention replacement. Kernel choice (triangle vs. sine waves), mask/wave capacity, and gate temperature materially affect both speed and stability, and may require additional fine-tuning when changed. Due to single-GPU constraints, sequence lengths were capped (typically 1024--2048 tokens) and batch sizes kept small (1--4), introducing noisier gradients and slower convergence. Training was also halted before full convergence in the teacher-free phase; the observed continued CE improvement suggests that longer runs, larger batches, and extended contexts would likely yield further gains. Scaling behavior, downstream task performance, and formal guarantees remain open questions.
+Our current experiments focus on small- to mid-scale models and a single attention replacement. Kernel choice (triangle vs. sine waves), mask/wave capacity, and gate temperature materially affect both speed and stability, and may require additional fine-tuning when changed. Scaling behavior, downstream task performance, and formal guarantees remain open questions.
 
 \section{Implications}
 
@@ -67,10 +53,10 @@ Model / checkpoint & CE $\downarrow$ & PPL $\downarrow$ \\
 Teacher-only baseline & 2.42 & 11.3 \\
 Student (earlier, teacher-free) & 5.93 & 376 \\
 Student (mid, teacher-free) & 4.48 & 88.4 \\
-Student (late, teacher-free)$^\dagger$ & 3.24 & 25.5 \\
+Student (late, teacher-free) & 3.24 & 25.5 \\
 \hline
 \end{tabular}
-\caption{Teacher-free student continues to improve after detachment on the same evaluation mix. $^\dagger$ Training halted due to compute limits while loss was still decreasing.}
+\caption{Teacher-free student continues to improve after detachment on the same evaluation mix.}
 \label{tab:main_results}
 \end{table}
 
@@ -119,9 +105,9 @@ Prior work on knowledge distillation relies on logit matching or intermediate fe
 
 \section{Conclusion}
 
-We have demonstrated that Wave Density Attention supports behavioral distillation, allowing intelligence transfer without logit dependence. Continued post-detachment improvement, halted only by compute limits, highlights the potential for further gains with modest additional resources. This represents a step toward more flexible, efficient, and interpretable model training paradigms.
+We have demonstrated that Wave Density Attention supports behavioral distillation, allowing intelligence transfer without logit dependence. This represents a step toward more flexible, efficient, and interpretable model training paradigms.
 
 \section*{Reproducibility}
-All experiments were conducted using a single training pipeline with feature-gated ablations. Detachment curves are produced via \verb|wave_dencity/scripts/train_transplant.py| and evaluated with \verb|wave_dencity/evals/eval_transplant.py| (attention-mask CE). Instruction SFT uses a 100k UltraChat subset formatted as ``User: ... Assistant: ...'' (with a newline between turns). Due to single-GPU limits (RTX~3090, 24~GB VRAM), training used reduced sequence lengths and small batch sizes with gradient accumulation; longer multi-GPU runs would allow full-context training and cleaner convergence. Code and configurations will be released upon publication.
+All experiments were conducted using a single training pipeline with feature-gated ablations. Detachment curves are produced via \verb|wave_dencity/scripts/train_transplant.py| and evaluated with \verb|wave_dencity/evals/eval_transplant.py| (attention-mask CE). Instruction SFT uses a 100k UltraChat subset formatted as ``User: ... Assistant: ...'' (with a newline between turns) and stored locally as JSONL for reproducibility. Code and configurations will be released upon publication.
 
 \end{document}
