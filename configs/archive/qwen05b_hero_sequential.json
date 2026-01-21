@@ -1,0 +1,96 @@
+{
+    "teacher_model_id": "Qwen/Qwen2.5-Coder-0.5B-Instruct",
+    "datasets": [
+        {
+            "kind": "hf_chat",
+            "dataset_name": "nvidia/Llama-Nemotron-Post-Training-Dataset",
+            "split": "chat",
+            "ratio": 0.20,
+            "assistant_only_loss": true
+        },
+        {
+            "kind": "hf_chat",
+            "dataset_name": "nvidia/Llama-Nemotron-Post-Training-Dataset",
+            "split": "math",
+            "ratio": 0.10,
+            "assistant_only_loss": true
+        },
+        {
+            "kind": "hf_chat",
+            "dataset_name": "nvidia/Llama-Nemotron-Post-Training-Dataset",
+            "split": "code",
+            "ratio": 0.10,
+            "assistant_only_loss": true
+        },
+        {
+            "kind": "hf_text",
+            "dataset_name": "HuggingFaceFW/fineweb-edu",
+            "subset": "sample-10BT",
+            "split": "train",
+            "text_column": "text",
+            "ratio": 0.20
+        },
+        {
+            "kind": "hf_chat",
+            "dataset_name": "HuggingFaceH4/ultrafeedback_binarized",
+            "split": "train_sft",
+            "assistant_only_loss": true,
+            "ratio": 0.20
+        },
+        {
+            "kind": "local_jsonl",
+            "path": "private/data/tech_cache/chat_if.jsonl",
+            "is_chat": true,
+            "assistant_only_loss": true,
+            "ratio": 0.10
+        },
+        {
+            "kind": "local_jsonl",
+            "path": "private/data/tech_cache/Nemotron-Pretraining-Scientific-Coding.jsonl",
+            "ratio": 0.10
+        }
+    ],
+    "seq_len": 128,
+    "micro_batch_size": 8,
+    "grad_accum": 8,
+    "steps": 5000,
+    "lr": 0.0002,
+    "weight_decay": 0.05,
+    "warmup_steps": 500,
+    "max_grad_norm": 0.5,
+    "temperature": 2.0,
+    "kl_weight": 1.0,
+    "ce_weight": 1.0,
+    "hidden_match_weight": 0.0,
+    "active_layers": null,
+    "handoff_power": 1.0,
+    "alpha_max": 1.0,
+    "alpha_warmup_steps": 500,
+    "teacher_scale_start": 1.0,
+    "teacher_scale_end": 0.0,
+    "wda_scale_start": 1.0,
+    "wda_scale_end": 1.0,
+    "handoff_start_step": 200,
+    "handoff_mode": "global",
+    "handoff_steps": 3000,
+    "handoff_stabilization_steps": 500,
+    "freeze_converted": false,
+    "converted_lr_scale": 1.0,
+    "init_gamma": 0.0,
+    "autopilot_enabled": true,
+    "autopilot_kl_low": 0.2,
+    "autopilot_kl_high": 0.8,
+    "out_dir": "private/checkpoints/qwen05b_hero_8m",
+    "device": "cuda",
+    "torch_dtype": "bfloat16",
+    "save_every": 100,
+    "log_every": 1,
+    "wda_num_masks": 32,
+    "wda_num_waves_per_mask": 4,
+    "wda_topk_masks": 4,
+    "wda_gate_temp": 0.05,
+    "wda_attn_alpha": 3.0,
+    "gamma_l1_weight": 0.0001,
+    "gamma_l1_target": 0.44,
+    "routing_entropy_weight": 0.1
+}

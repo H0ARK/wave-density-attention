@@ -1,0 +1,114 @@
+# ==========================
+    # One-stop hyperparameters
+    # ==========================
+    RUN = {
+        "seq_len": 2048,
+        "steps": 10000,
+        "batch_size": 2,
+        "lr": 2e-4,
+        "seed": 42,
+        "val_every": 100,
+        "val_batches": 10,
+        "save_every": 500,
+        "checkpoint_path": "mom-v1.pt",
+        "use_8bit_opt": True,
+    }
+
+    MODEL_CFG = {
+        "embed_dim": 512,
+        "num_layers": 8,
+        "num_heads": 8,
+        "num_masks": 32,
+        "num_waves_per_mask": 2,
+        "topk_masks": 8,
+        "attn_alpha": 3.0,
+        "content_rank": 8,
+        "content_mix": 0.15,
+        "learned_content": True,
+        "use_sin_waves": False,
+        "ffn_mult": 8,
+        "tie_embeddings": False,
+    }
+
+    DATA_CFG = {
+        # Goal: chat + code + reason (compete with strong small coding-chat models)
+        # Uses the `dataset="mix"` path in private/dev/model copy.py
+        "dataset": "mix",
+        "buffer_size": 10000,
+        "mix_streams": [
+            {
+                "kind": "the_stack",
+                "ratio": 0.55,
+                "language": "python",
+                "dataset_name": "bigcode/the-stack",
+                "split": "train",
+                "val_split": "train",
+                "max_chars_per_doc": 20000,
+                "assistant_only_loss": False,
+            },
+            {
+                "kind": "nemotron_chat",
+                "ratio": 0.20,
+                "assistant_only_loss": True,
+                "dataset_name": "nvidia/Nemotron-Instruction-Following-Chat-v1",
+                "split": "chat_if",
+                "val_split": "chat_if",
+                "include_assistant_prefix_in_loss": False,
+            },
+            {
+                "kind": "nemotron",
+                "ratio": 0.15,
+                "assistant_only_loss": False,
+                "dataset_name": "nvidia/Nemotron-Pretraining-Specialized-v1",
+                "subset": "Nemotron-Pretraining-InfiniByte-Reasoning",
+                "split": "train",
+                "val_split": "train",
+            },
+            {
+                "kind": "gsm8k",
+                "ratio": 0.10,
+                "assistant_only_loss": True,
+                "dataset_name": "gsm8k",
+                "subset": "main",
+                "include_rationale": True,
+                "split": "train",
+                "val_split": "test",
+            },
+        ],
+    }
+
+    TRAIN_CFG = {
+        "warmup_steps": 500,
+        "clip_grad": 0.2,
+        "use_compile": True,
+        "compile_mode": "reduce-overhead",
+        "use_bf16": True,
+        # Curriculum learning (triggered by val loss improvement)
+        "use_mixed_phase": False,
+        "curriculum_trigger_window": 5,  # Check last 5 validation evals
+        "curriculum_trigger_threshold": 0.05,  # 5% improvement triggers curriculum
+        "curriculum_min_steps": 1000,  # Minimum steps before curriculum can activate
+        # Post-training (instruction-following chat in final 5% of training)
+        "use_post_training": False,
+        "post_training_ratio": 0.05,  # Last 5% of steps
+        "post_training_dataset": "nemotron_chat",  # nvidia/Nemotron-Instruction-Following-Chat-v1
+    }
+
+    _ = train_streaming_lm(
+        device=dev,
+        seq_len=RUN["seq_len"], 
+        steps=RUN["steps"],
+        batch_size=RUN["batch_size"],
+        lr=RUN["lr"],
+        seed=RUN["seed"],
+        val_every=RUN["val_every"],
+        val_batches=RUN["val_batches"],
+        save_every=RUN["save_every"],
+        checkpoint_path=RUN["checkpoint_path"],
+        use_8bit_opt=RUN["use_8bit_opt"],
+        model_cfg=MODEL_CFG,
+        data_cfg=DATA_CFG,
+        train_cfg=TRAIN_CFG,
+    )
+
+

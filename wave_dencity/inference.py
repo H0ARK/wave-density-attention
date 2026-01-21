@@ -1,7 +1,8 @@
 import torch
 import torch.nn.functional as F
+from contextlib import nullcontext
 
-@torch.no_grad()
+@torch.inference_mode()
 def generate_text(
     model: torch.nn.Module,
     tokenizer,
@@ -17,6 +18,14 @@ def generate_text(
     """Generate text from a prompt using BPE tokenizer."""
     model.eval()
     seq_len = model.seq_len
+
+    dev_str = str(device)
+    if dev_str.startswith("cuda"):
+        autocast_ctx = lambda: torch.autocast(device_type="cuda", dtype=torch.bfloat16)
+    elif dev_str == "mps":
+        autocast_ctx = lambda: torch.autocast(device_type="mps", dtype=torch.float16)
+    else:
+        autocast_ctx = None
     
     seed_tokens = tokenizer.encode(seed_text, add_special_tokens=False) if seed_text else []
     prompt_tokens = tokenizer.encode(prompt, add_special_tokens=False)
@@ -33,33 +42,48 @@ def generate_text(
         idx = torch.tensor([padding + tokens], dtype=torch.long, device=device)
     
     generated: list[int] = []
-    for _ in range(max_tokens):
-        logits = model(idx)
-        next_logits = logits[:, -1, :].clone()
+    with (autocast_ctx() if autocast_ctx is not None else nullcontext()):
+        for _ in range(max_tokens):
+            logits = model(idx)
+            next_logits = logits[:, -1, :].clone()
 
-        if repetition_penalty != 1.0 and generated:
-            prev = torch.tensor(generated, device=next_logits.device, dtype=torch.long)
-            next_logits[0, prev] = next_logits[0, prev] / float(repetition_penalty)
+            if repetition_penalty != 1.0 and generated:
+                prev = torch.tensor(generated, device=next_logits.device, dtype=torch.long)
+                # Simple penalty: reduce logits for seen tokens
+                next_logits[0, prev] = next_logits[0, prev] / float(repetition_penalty)
 
-        next_logits = next_logits / max(temp, 1e-6)
+            if temp and temp > 0:
+                next_logits = next_logits / float(max(temp, 1e-6))
 
-        if top_k and top_k > 0:
-            v, _ = torch.topk(next_logits, k=min(int(top_k), next_logits.shape[-1]))
-            cutoff = v[:, -1].unsqueeze(-1)
-            next_logits = torch.where(next_logits < cutoff, torch.full_like(next_logits, -float("inf")), next_logits)
+            if top_k and top_k > 0:
+                v, _ = torch.topk(next_logits, k=min(int(top_k), next_logits.shape[-1]))
+                cutoff = v[:, -1].unsqueeze(-1)
+                next_logits = torch.where(
+                    next_logits < cutoff,
+                    torch.full_like(next_logits, -float("inf")),
+                    next_logits,
+                )
 
-        if top_p and top_p < 1.0:
-            sorted_logits, sorted_idx = torch.sort(next_logits, descending=True, dim=-1)
-            sorted_probs = F.softmax(sorted_logits, dim=-1)
-            cumprobs = torch.cumsum(sorted_probs, dim=-1)
-            remove = cumprobs > float(top_p)
-            remove[:, 0] = False
-            sorted_logits = sorted_logits.masked_fill(remove, -float("inf"))
-            next_logits = torch.full_like(next_logits, -float("inf")).scatter(1, sorted_idx, sorted_logits)
+            if top_p and top_p < 1.0:
+                sorted_logits, sorted_idx = torch.sort(next_logits, descending=True, dim=-1)
+                sorted_probs = F.softmax(sorted_logits, dim=-1)
+                cumprobs = torch.cumsum(sorted_probs, dim=-1)
+                remove = cumprobs > float(top_p)
+                remove[:, 0] = False
+                sorted_logits = sorted_logits.masked_fill(remove, -float("inf"))
+                next_logits = torch.full_like(next_logits, -float("inf")).scatter(1, sorted_idx, sorted_logits)
 
-        probs = F.softmax(next_logits, dim=-1)
-        nxt = torch.multinomial(probs, num_samples=1)
-        idx = torch.cat([idx[:, 1:], nxt], dim=1)
-        generated.append(nxt.item())
+            if temp and temp <= 0:
+                nxt = torch.argmax(next_logits, dim=-1, keepdim=True)
+            else:
+                probs = F.softmax(next_logits, dim=-1)
+                nxt = torch.multinomial(probs, num_samples=1)
+
+            idx = torch.cat([idx[:, 1:], nxt], dim=1)
+            token_id = int(nxt.item())
+            generated.append(token_id)
+
+            if hasattr(tokenizer, "eos_token_id") and token_id == tokenizer.eos_token_id:
+                break
     
     return tokenizer.decode(generated)

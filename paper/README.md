@@ -1,6 +1,6 @@
-# Paper
+# WDA Paper (Legacy Location)
 
-This folder contains an arXiv-friendly LaTeX source for the Wave-Density Attention paper.
+This folder contains the LaTeX source for the Wave-Density Attention paper. The behavioral distillation paper now lives in `behavioral-distillation/`.
 
 ## Build
 

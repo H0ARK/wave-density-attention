@@ -1,0 +1,15 @@
+{
+    "base_model_name_or_path": "google/gemma-3-270m-it",
+    "wda_num_masks": 64,
+    "wda_num_waves_per_mask": 4,
+    "wda_topk_masks": 8,
+    "wda_attn_alpha": 3.0,
+    "wda_content_mix": 0.1,
+    "wda_learned_content": true,
+    "wda_use_sin_waves": false,
+    "wda_noise_sigma": 0.12,
+    "wda_step_alpha": 6.0,
+    "alpha_layer_scale": "sqrt",
+    "seq_len": 512,
+    "peft_type": "WDA_TRANSPLANT"
+}

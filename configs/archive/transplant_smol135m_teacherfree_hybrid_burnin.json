@@ -1,0 +1,72 @@
+{
+  "teacher_model_id": "HuggingFaceTB/SmolLM-135M",
+  "datasets": [
+    {
+      "kind": "hf_text",
+      "dataset_name": "HuggingFaceTB/smollm-corpus",
+      "subset": "cosmopedia-v2",
+      "split": "train",
+      "text_column": "text",
+      "ratio": 0.4
+    },
+    {
+      "kind": "hf_text",
+      "dataset_name": "HuggingFaceTB/smollm-corpus",
+      "subset": "fineweb-edu-dedup",
+      "split": "train",
+      "text_column": "text",
+      "ratio": 0.4
+    },
+    {
+      "kind": "hf_text",
+      "dataset_name": "Avelina/python-edu",
+      "split": "train",
+      "text_column": "text",
+      "ratio": 0.2
+    }
+  ],
+
+  "seq_len": 128,
+  "micro_batch_size": 64,
+  "grad_accum": 2,
+
+  "steps": 999999,
+  "run_steps": 500,
+  "lr": 3e-5,
+  "weight_decay": 0.01,
+  "warmup_steps": 50,
+  "max_grad_norm": 1.0,
+
+  "temperature": 1.0,
+  "kl_weight": 0.0,
+  "ce_weight": 1.0,
+  "hidden_match_weight": 0.0,
+
+  "autopilot_enabled": false,
+
+  "teacher_free_mode": true,
+  "final_force_teacher_off": false,
+
+  "teacher_free_alpha": 1.0,
+  "teacher_free_teacher_scale": 1.0,
+  "teacher_free_wda_scale": 1.0,
+
+  "teacher_free_gamma_init": null,
+  "teacher_free_gamma_min": 0.0,
+
+  "out_dir": "private/checkpoints/smol135m_wda_teacherfree_hybrid",
+  "device": "cuda",
+  "torch_dtype": "bfloat16",
+
+  "save_every": 50,
+  "log_every": 10,
+
+  "wda_num_masks": 16,
+  "wda_num_waves_per_mask": 8,
+  "wda_topk_masks": 4,
+  "wda_gate_temp": 0.05,
+  "wda_attn_alpha": 3.0,
+
+  "gamma_l1_weight": 0.0,
+  "routing_entropy_weight": 0.0
+}

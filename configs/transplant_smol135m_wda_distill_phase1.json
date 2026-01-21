@@ -1,0 +1,120 @@
+{
+  "run_mode": "teacher_target_distill",
+  "teacher_type": "external_hf",
+  "student_attn_impl": "wda",
+  "teacher_model_id": "HuggingFaceTB/SmolLM-135M",
+  "teacher_free_mode": false,
+  "final_force_teacher_off": false,
+
+  "device": "cuda",
+  "torch_dtype": "bfloat16",
+  "out_dir": "private/checkpoints/smol135m_wda_distill_phase1",
+
+  "datasets": [
+    {
+      "kind": "hf_text",
+      "dataset_name": "HuggingFaceTB/smollm-corpus",
+      "subset": "cosmopedia-v2",
+      "split": "train",
+      "text_column": "text",
+      "ratio": 0.4
+    },
+    {
+      "kind": "hf_text",
+      "dataset_name": "HuggingFaceTB/smollm-corpus",
+      "subset": "fineweb-edu-dedup",
+      "split": "train",
+      "text_column": "text",
+      "ratio": 0.4
+    },
+    {
+      "kind": "hf_text",
+      "dataset_name": "Avelina/python-edu",
+      "split": "train",
+      "text_column": "text",
+      "ratio": 0.2
+    }
+  ],
+
+  "seq_len": 128,
+  "micro_batch_size": 64,
+  "grad_accum": 4,
+  "steps": 999999,
+  "run_steps": 2000,
+
+  "lr": 5e-4,
+  "gamma_only_lr": 0.0015,
+  "weight_decay": 0.0,
+  "warmup_steps": 20,
+  "max_grad_norm": 1.0,
+
+  "temperature": 1.0,
+  "kl_weight": 0.0,
+  "ce_weight": 1.0,
+  "alpha_warmup_steps": 0,
+  "hidden_match_weight": 0.0,
+  "autopilot_enabled": false,
+  "loss_chunk_size": 512,
+
+  "save_every": 50,
+  "log_every": 5,
+  "baseline_pct_log_topk": 5,
+
+  "train_gamma_only": false,
+  "init_gamma": 0.05,
+  "gamma_l1_weight": 0.0,
+  "distill": {
+    "enabled": true,
+    "targets": ["resid_energy"],
+    "mse_weight": 0.02,
+    "cosine_weight": 0.0,
+    "layer_weights": "depth_decay"
+  },
+  "schedule": {
+    "stages": [
+      {
+        "name": "wda_only",
+        "start_step": 0,
+        "steps": 2000,
+        "alpha": 1.0,
+        "teacher_scale": 0.0,
+        "wda_scale": 1.0,
+        "gate_temp": 0.1
+      }
+    ]
+  },
+  "teacher_scale_start": 0.0,
+  "teacher_scale_end": 0.0,
+  "wda_scale_start": 1.0,
+  "wda_scale_end": 1.0,
+  "handoff_start_step": 0,
+  "handoff_steps": 0,
+
+  "gamma_floor_start": 0.03,
+  "gamma_floor_end": 0.03,
+  "gamma_floor_start_step": 0,
+  "gamma_floor_steps": 0,
+
+  "wda_num_masks": 24,
+  "wda_num_waves_per_mask": 8,
+  "wda_topk_masks": 4,
+  "wda_gate_temp": 0.1,
+  "wda_attn_alpha": 3.0,
+  "wda_gain_min": 1.0,
+  "wda_gain_max": 10.0,
+  "wda_gain_l2_weight": 0.0,
+  "wda_gain_target": 1.0,
+  "routing_entropy_weight": 0.0,
+  "eval": {
+    "enabled": false,
+    "every": 200,
+    "batches": 2,
+    "teacher_free": true,
+    "max_new_tokens": 200,
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "prompts": [
+      "Explain why the sky is blue in two sentences."
+    ]
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "teacher_model_id": "HuggingFaceTB/SmolLM-135M",
+  "datasets": [
+    {
+      "kind": "hf_text",
+      "dataset_name": "HuggingFaceTB/smollm-corpus",
+      "subset": "cosmopedia-v2",
+      "split": "train",
+      "text_column": "text",
+      "ratio": 0.4
+    },
+    {
+      "kind": "hf_text",
+      "dataset_name": "HuggingFaceTB/smollm-corpus",
+      "subset": "fineweb-edu-dedup",
+      "split": "train",
+      "text_column": "text",
+      "ratio": 0.4
+    },
+    {
+      "kind": "hf_text",
+      "dataset_name": "Avelina/python-edu",
+      "split": "train",
+      "text_column": "text",
+      "ratio": 0.2
+    }
+  ],
+
+  "seq_len": 128,
+  "micro_batch_size": 32,
+  "grad_accum": 4,
+
+  "steps": 999999,
+  "run_steps": 1000,
+  "lr": 5e-5,
+  "gamma_only_lr": 0.0015,
+  "weight_decay": 0.0,
+  "warmup_steps": 20,
+  "max_grad_norm": 1.0,
+
+  "temperature": 1.0,
+  "kl_weight": 0.0,
+  "ce_weight": 1.0,
+  "hidden_match_weight": 0.0,
+
+  "autopilot_enabled": false,
+
+  "teacher_free_mode": true,
+  "final_force_teacher_off": false,
+
+  "teacher_free_alpha": 1.0,
+  "teacher_free_teacher_scale": 0.03,
+  "teacher_free_teacher_scale_end": null,
+  "teacher_free_teacher_scale_steps": 0,
+  "teacher_free_wda_scale": 3.5,
+
+  "teacher_free_gamma_reset": false,
+  "teacher_free_gamma_init": null,
+  "teacher_free_gamma_min": 0.0,
+
+  "train_gamma_only": true,
+
+  "gamma_floor_start": 0.013,
+  "gamma_floor_end": 0.013,
+  "gamma_floor_start_step": 0,
+  "gamma_floor_steps": 0,
+  "gamma_floor_topk": 5,
+  "gamma_floor_focus_scale": 1.2,
+  "gamma_max": null,
+  "baseline_pct_log_topk": 5,
+
+  "wda_gain_min": 1.2,
+  "wda_gain_max": 1.2,
+  "wda_gain_l2_weight": 0.0,
+  "wda_gain_target": 1.2,
+
+  "out_dir": "private/checkpoints/smol135m_gamma_plateau_ts003",
+  "device": "cuda",
+  "torch_dtype": "bfloat16",
+
+  "loss_chunk_size": 512,
+
+  "save_every": 100,
+  "log_every": 5,
+
+  "wda_num_masks": 16,
+  "wda_num_waves_per_mask": 8,
+  "wda_topk_masks": 4,
+  "wda_gate_temp": 0.1,
+  "wda_attn_alpha": 3.0,
+
+  "gamma_l1_weight": 0.0,
+  "routing_entropy_weight": 0.0
+}

@@ -1,0 +1,50 @@
+{
+    "teacher_model_id": "google/gemma-3-270m-it",
+    "datasets": [
+        {
+            "kind": "local_jsonl",
+            "path": "private/data/tech_cache/chat_if.jsonl",
+            "is_chat": true,
+            "assistant_only_loss": true,
+            "ratio": 0.80
+        },
+        {
+            "kind": "local_jsonl",
+            "path": "private/data/tech_cache/Nemotron-Pretraining-InfiniByte-Reasoning.jsonl",
+            "ratio": 0.05
+        }
+    ],
+    "seq_len": 512,
+    "micro_batch_size": 4,
+    "grad_accum": 4,
+    "steps": 5000,
+    "lr": 2e-04,
+    "weight_decay": 0.01,
+    "warmup_steps": 100,
+    "max_grad_norm": 1.0,
+    "temperature": 2.0,
+    "kl_weight": 0.3,
+    "ce_weight": 1.0,
+    "alpha_max": 1.0,
+    "alpha_warmup_steps": 1000,
+    "teacher_scale_start": 1.0,
+    "teacher_scale_end": 0.0,
+    "wda_scale_start": 1.0,
+    "wda_scale_end": 1.0,
+    "handoff_start_step": 1500,
+    "handoff_mode": "sequential",
+    "steps_per_layer": 150,
+    "freeze_converted": true,
+    "out_dir": "private/checkpoints/gemma270m_hero_sequential",
+    "device": "cuda",
+    "torch_dtype": "bfloat16",
+    "save_every": 50,
+    "log_every": 1,
+    "wda_num_masks": 64,
+    "wda_num_waves_per_mask": 4,
+    "wda_topk_masks": 8,
+    "wda_attn_alpha": 3.0,
+    "init_gamma": 0.1,
+    "gamma_l1_weight": 0.0005,
+    "gamma_l1_target": 0.2
+}

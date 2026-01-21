@@ -6,7 +6,7 @@ Successfully implemented **latent chunk-level "thought units"** as an internal t
 
 ## Key Changes
 
-### 1. Core Infrastructure (`thought_tokens.py`)
+### 1. Core Infrastructure (`wave_dencity/model_thought.py`)
 
 #### New Function: `segment_into_chunks()`
 - Segments sequences into coherent chunks (default: 64 tokens)
